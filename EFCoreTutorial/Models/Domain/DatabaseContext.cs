@@ -14,6 +14,18 @@ namespace EFCoreTutorial.Models.Domain
                 .HasOne(a => a.StudentAddress)
                 .WithOne(a => a.Student)
                 .HasForeignKey<StudentAddress>(a => a.StudentId);
+
+            builder.Entity<BookGenre>()
+                .HasKey(a => new {a.BookId,a.GenreId});
+            builder.Entity<BookGenre>()
+                .HasOne(a => a.Book)
+                .WithMany(a => a.Genres)
+                .HasForeignKey(a => a.BookId);
+            builder.Entity<BookGenre>()
+                .HasOne(a => a.Genre)
+                .WithMany(a => a.Books)
+                .HasForeignKey(a => a.GenreId);
+
         }
 
         public DbSet<Category> Category { get; set; }
@@ -25,6 +37,7 @@ namespace EFCoreTutorial.Models.Domain
 
         public DbSet<Book> Book { get; set; }
         public DbSet<Genre> Genre { get; set; }
+        public DbSet<BookGenre> BookGenre { get; set; }
 
     }
 }
